@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Personal Finance Tracker - Phase 6</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <section id="authSection" class="auth-shell" aria-label="Account access">
+    <div class="auth-card">
+      <h1>FinanceTracker</h1>
+      <p>Sign in to view your personal finance dashboard.</p>
+      <div class="auth-tabs">
+        <button type="button" id="showLogin" class="active">Login</button>
+        <button type="button" id="showRegister" class="secondary">Register</button>
+      </div>
+      <form id="loginForm" class="auth-form">
+        <label>Email<input id="loginEmail" type="email" autocomplete="username" required></label>
+        <label>Password<input id="loginPassword" type="password" autocomplete="current-password" required></label>
+        <button type="submit" id="loginBtn">Login</button>
+      </form>
+      <form id="registerForm" class="auth-form" hidden>
+        <label>Full name<input id="registerName" type="text" maxlength="100" autocomplete="name" required></label>
+        <label>Email<input id="registerEmail" type="email" autocomplete="email" required></label>
+        <label>Password (at least 10 characters)<input id="registerPassword" type="password" minlength="10" maxlength="72" autocomplete="new-password" required></label>
+        <button type="submit" id="registerBtn">Create Account</button>
+      </form>
+      <p id="authMessage" role="status" aria-live="polite"></p>
+    </div>
+  </section>
+  <div class="app" id="appContainer" hidden>
+    <aside class="sidebar">
+      <h2>FinanceTracker</h2>
+      <nav>
+        <a href="#dashboard">Dashboard</a>
+        <a href="#transactions">Transactions</a>
+        <a href="#reports">Reports</a>
+        <a href="#budgetSection">Budgets</a>
+        <a href="#budgetAlertsSection">Budget Alerts</a>
+      </nav>
+      <div class="account-panel"><p id="welcomeUser">Welcome!</p><button type="button" id="logoutBtn" class="secondary">Logout</button></div>
+    </aside>
+    <main class="main" id="dashboard">
+      <header>
+        <div><h1>Finance Dashboard</h1><p>Manage your money efficiently</p></div>
+        <button id="addBtn" type="button">+ Add Transaction</button>
+      </header>
+      <p id="statusMessage" role="status" aria-live="polite"></p>
+      <section class="cards">
+        <div class="card"><p>Total Income</p><h2 id="income" class="income">₹0.00</h2></div>
+        <div class="card"><p>Total Expenses</p><h2 id="expenses" class="expenses">₹0.00</h2></div>
+        <div class="card"><p>Available Balance</p><h2 id="balance" class="balance">₹0.00</h2></div>
+      </section>
+      <section class="panel" id="reports">
+        <h2>Expense Distribution</h2>
+        <div class="chart-container"><canvas id="expenseChart"></canvas></div>
+      </section>
+      <section class="panel" id="monthlyReports">
+        <h2>Monthly Financial Reports</h2>
+        <div class="chart-container monthly-chart"><canvas id="monthlyChart"></canvas></div>
+      </section>
+      <section class="panel" id="budgetSection">
+        <h2>Monthly Budget Management</h2>
+        <p>Set a monthly spending limit for each expense category.</p>
+        <form id="budgetForm" class="form-grid">
+          <label>Category<input id="budgetCategory" type="text" maxlength="50" placeholder="Example: Food" required></label>
+          <label>Monthly Limit (₹)<input id="budgetAmount" type="number" min="0.01" max="99999999.99" step="0.01" required></label>
+          <label>Budget Month<input id="budgetMonth" type="month" required></label>
+          <button type="submit">Save Budget</button>
+        </form>
+        <h3>Saved Budgets</h3>
+        <div id="budgetList" aria-live="polite"></div>
+      </section>
+      <section class="panel" id="budgetAlertsSection">
+        <h2>Budget Alerts</h2>
+        <div id="budgetAlerts" aria-live="polite"></div>
+      </section>
+      <section class="panel" id="transactions">
+        <h2>Recent Transactions</h2>
+        <div class="transaction-filters">
+          <label>Category<select id="categoryFilter"><option value="all">All Categories</option></select></label>
+          <label>Month<input type="month" id="monthFilter"></label>
+          <button id="clearFilters" type="button" class="secondary">Clear Filters</button>
+          <button id="exportCSV" type="button">Export Transactions to CSV</button>
+        </div>
+        <div class="table-wrap"><table>
+          <thead><tr><th>Date</th><th>Category</th><th>Type</th><th>Amount</th><th>Action</th></tr></thead>
+          <tbody id="transactionList"></tbody>
+        </table></div>
+      </section>
+    </main>
+  </div>
+  <dialog id="transactionDialog">
+    <form id="transactionForm" class="dialog-form">
+      <h2 id="formTitle">Add Transaction</h2>
+      <label>Type<select id="type" required><option value="income">Income</option><option value="expense">Expense</option></select></label>
+      <label>Category<input id="category" type="text" maxlength="50" required placeholder="Food, Salary, Shopping..."></label>
+      <label>Amount (₹)<input id="amount" type="number" min="0.01" max="99999999.99" step="0.01" required></label>
+      <label>Date<input id="date" type="date" required></label>
+      <div class="actions"><button type="button" id="cancelBtn" class="secondary">Cancel</button><button type="submit" id="saveBtn">Save Transaction</button></div>
+    </form>
+  </dialog>
+  <script src="script.js"></script>
+</body>
+</html>
